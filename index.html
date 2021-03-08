@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134451768-1"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         gtag('config', 'UA-134451768-1');
+      </script>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <title>메이플 경험치 효율 </title>
+      <link rel="stylesheet" href="main.css?v=3">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css" rel="stylesheet" />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.js"></script>
+   </head>
+   <body class="wrap">
+      <nav>
+         <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">메이플 성장의 비약 계산기</a>
+         </div>
+      </nav>
+      <div class="col s12 card-panel">
+         <form id="expform" onsubmit="return false;">
+            <div class="row">
+               <div class="input-field col s5">
+                  <input required name="param1" id="lev" type="number" min="200" max="299" maxlength="3" placeholder="200">
+                  <label>레벨</label>
+               </div>
+               <div class="input-field col s7">
+                  <input required name="param2" id="per" type="number" min="0" max="100" step="0.001" placeholder="10.19">
+                  <label>경험치 퍼센트(%)</label>
+               </div>
+            </div>
+            <div class="row">
+               <div class="range-field col s6">
+                  <input name="cnt1" type="range" min="0" max="3" value="3" oninput="showVal(this.value)" onchange="showVal(this.value)" />
+                  <label>네성비1 [3개, ~209렙]</label>
+               </div>
+               <div class="range-field col s6">
+                  <input name="cnt2" type="range" min="0" max="3" value="3" />
+                  <label>네성비2 [3개, ~219렙]</label>
+               </div>
+            </div>
+            <div class="row">
+               <div class="range-field col s6">
+                  <input name="cnt3" type="range" min="0" max="3" value="3" />
+                  <label>네성비3 [3개, ~229렙]</label>
+               </div>
+               <div class="range-field col s6">
+                  <input name="cnt4" type="range" min="0" max="3" value="3" />
+                  <label>태성비 [3개, ~239렙] </label>
+               </div>
+            </div>
+            <div class="row">
+               <div class="range-field col s6">
+                  <input name="cnt5" type="range" min="0" max="1" value="1" />
+                  <label>극성비 [1개, ~249렙]</label>
+               </div>
+               <div class="range-field col s6">
+                  <br />
+                  <button class="btn waves-effect waves-light" type="submit">확인
+                     <i class="material-icons right">send</i>
+                  </button>
+               </div>
+            </div>
+
+         </form>
+
+         <div class="row" id="result" style="display: none">
+            <div class="input-field col s12 center">
+               <h4 id="res">{lev}레벨, {per}%</h4>
+               <br />
+               <img class="responsive-img tooltipped" src="/hj.gif" data-position="bottom" data-tooltip="이달의 소녀 희진" />
+               <span>© Dev by 무명의 희진이팬</p>
+            </div>
+         </div>
+      </div>
+
+      <script type="text/javascript">
+         var API_URL = 'https://eidjuidzmd.execute-api.ap-northeast-2.amazonaws.com/demo/exp';
+         
+         jQuery.fn.serializeObject = function () {
+            var obj = null;
+            try {
+               if (this[0].tagName && this[0].tagName.toUpperCase() == "FORM") {
+                     var arr = this.serializeArray();
+                     if (arr) {
+                        obj = {};
+                        jQuery.each(arr, function () {
+                           obj[this.name] = this.value;
+                        });
+                     }
+               }
+            } catch (e) {
+               alert(e.message);
+            } finally { }
+            return obj;
+         }
+
+         $(document).ready(function() { 
+            $('.tooltipped').tooltip();
+            $('#expform').submit(function(e) {
+               e.preventDefault();
+               $.post({
+                  url: API_URL,
+                  data: JSON.stringify($('#expform').serializeObject()),
+                  contentType: "application/json",
+                  success: function (data) {
+                     if(data.state == "error") {
+                        alert("조회에 실패하였습니다.")
+                     }
+                     $('#result').css("display", "block");
+                     $('#res').text(`${data.lev}레벨, ${data.per}%`);
+                     console.log("success");
+                  }
+               });
+               return false;
+            });
+        }); 
+      </script>
+   </body>
+</html>
