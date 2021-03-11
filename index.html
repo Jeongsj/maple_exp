@@ -71,11 +71,19 @@
          </form>
 
          <div class="row" id="result" style="display: none">
-            <div class="input-field col s12 center">
+            <!-- div class="input-field col s12 center">
                <h4 id="res">{lev}레벨, {per}%</h4>
                <br />
                <img class="responsive-img tooltipped" src="/hj.gif" data-position="bottom" data-tooltip="이달의 소녀 희진" />
                <span>© Dev by 무명의 희진이팬</p>
+            </div-->
+            <div class="input-field col s12 center">
+               <h4 id="res">{lev}레벨, {per}%</h4>
+               <br />
+               <a href="https://qr.kakaopay.com/281006011000011473949602" target="_blank">
+                  <img class="responsive-img tooltipped" src="pay.jpg" data-position="bottom" data-tooltip="카카오페이 송금" />
+               </a>
+               
             </div>
          </div>
       </div>
@@ -105,8 +113,6 @@
             $('.tooltipped').tooltip();
             $('#expform').submit(function(e) {
                e.preventDefault();
-               alert('사용자수 폭주로 인해 금일 오전 11시 59분까지 서비스 임시점검 예정입니다ㅠㅠ 양해 부탁드려요!');
-               return false;
                $.post({
                   url: API_URL,
                   data: JSON.stringify($('#expform').serializeObject()),
