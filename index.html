@@ -62,7 +62,7 @@
                </div>
                <div class="range-field col s6">
                   <br />
-                  <button class="btn waves-effect waves-light" type="submit">확인
+                  <button class="btn waves-effect waves-light" type="submit" id="btnSubmit">확인
                      <i class="material-icons right">send</i>
                   </button>
                </div>
@@ -106,19 +106,27 @@
             $('.tooltipped').tooltip();
             $('#expform').submit(function(e) {
                e.preventDefault();
+               $('#btnSubmit').attr('disabled', true);
                $.post({
                   url: API_URL,
+                  async: false,
                   data: JSON.stringify($('#expform').serializeObject()),
                   contentType: "application/json",
                   success: function (data) {
                      if(data.state == "error") {
                         alert("조회에 실패하였습니다.");
                      }
-                     $('#result').css("display", "block");
+                     $('#result').fadeIn(2000);
+                     var offset = $('#result').offset();
+                     $('html').animate({scrollTop : offset.top}, 400);
                      $('#res').text(`${data.lev}레벨, ${data.per}%`);
                      console.log("success");
                   }
                });
+               setTimeout(function(){
+                  $('#btnSubmit').attr('disabled', false);
+               },1000);
+                        
                return false;
             });
         }); 
