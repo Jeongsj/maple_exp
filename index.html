@@ -71,20 +71,13 @@
          </form>
 
          <div class="row" id="result" style="display: none">
-            <!-- div class="input-field col s12 center">
-               <h4 id="res">{lev}레벨, {per}%</h4>
-               <br />
-               <img class="responsive-img tooltipped" src="/hj.gif" data-position="bottom" data-tooltip="이달의 소녀 희진" />
-               <span>© Dev by 무명의 희진이팬</p>
-            </div-->
             <div class="input-field col s12 center">
                <h4 id="res">{lev}레벨, {per}%</h4>
                <br />
-               <a href="https://qr.kakaopay.com/281006011000011473949602" target="_blank">
-                  <img class="responsive-img tooltipped" src="pay.jpg?v=2" data-position="bottom" data-tooltip="카카오페이 송금" />
-               </a>
-               
-            </div>
+               <img class="responsive-img tooltipped" src="/hj.gif" data-position="bottom" data-tooltip="이달의 소녀 희진" />
+               <p style="color:lightgrey">서버비 모금이 마감되었습니다. <br />후원해주셔서 정말 감사합니다! (꾸벅) <br />좋은 하루 보내세요♥</p>
+               <span>© Dev by 무명의 희진이팬</p>
+            <div>
          </div>
       </div>
 
@@ -119,7 +112,7 @@
                   contentType: "application/json",
                   success: function (data) {
                      if(data.state == "error") {
-                        alert("조회에 실패하였습니다.")
+                        alert("조회에 실패하였습니다.");
                      }
                      $('#result').css("display", "block");
                      $('#res').text(`${data.lev}레벨, ${data.per}%`);
